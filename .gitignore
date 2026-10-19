@@ -1,0 +1,31 @@
+node_modules/
+.expo/
+dist/
+web-build/
+*.log
+.DS_Store
+
+# ---- Kept on this PC only, never pushed (public repo) ----
+# EAS builds still get these files: mobile/.easignore (used instead of .gitignore) doesn't exclude them.
+
+# Firebase config of the author's own project. To build: download your own from the Firebase
+# console (see mobile/docs/FIREBASE_KURULUM.md) and put it at mobile/google-services.json.
+**/google-services.json
+**/GoogleService-Info.plist
+
+# Sound files not made in this project (third-party / game audio; not ours to redistribute).
+# The app expects them at these paths: put your own clips there (see README.md).
+mobile/assets/sounds/done.mp3
+mobile/assets/sounds/ferman.mp3
+mobile/assets/sounds/hatirlatma.mp3
+designs/sounds/
+
+# Personal screenshots
+ss/
+
+# Signing keys and credentials (EAS keeps the keystore on its servers)
+*.keystore
+*.jks
+credentials.json
+.env
+.env.*

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tasarım Karşılaştırma</title>
+<style>
+  :root { --bg:#eceef1; --fg:#1d2024; --muted:#5d636b; --card:#fff; --line:#d5d9de; --accent:#2457d6; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#14161a; --fg:#e8eaed; --muted:#9aa0a6; --card:#1e2126; --line:#30343a; --accent:#7aa2ff; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  header { padding:20px 24px 8px; display:flex; flex-wrap:wrap; gap:12px 20px; align-items:center; }
+  h1 { font-size:20px; margin:0; }
+  header p { margin:0; color:var(--muted); flex:1 1 320px; }
+  .tools { display:flex; gap:8px; flex-wrap:wrap; }
+  button, select { font:inherit; padding:8px 14px; border-radius:8px; border:1px solid var(--line); background:var(--card); color:var(--fg); cursor:pointer; }
+  button.primary { background:var(--accent); border-color:var(--accent); color:#fff; }
+  .row { display:flex; gap:28px; overflow-x:auto; padding:16px 24px 32px; scroll-snap-type:x proximity; }
+  figure { margin:0; flex:0 0 auto; scroll-snap-align:start; }
+  figcaption { display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:8px; }
+  figcaption b { font-size:15px; }
+  figcaption a { color:var(--accent); font-size:13px; text-decoration:none; }
+  .phone { width:calc(var(--w) * 1px + 20px); height:calc(var(--h) * 1px + 20px); padding:10px; border-radius:36px; background:#0b0c0e; box-shadow:0 10px 30px rgba(0,0,0,.25); }
+  iframe { width:100%; height:100%; border:0; border-radius:26px; background:#fff; display:block; }
+  .note { padding:0 24px 24px; color:var(--muted); font-size:13px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>9 Tasarım — yan yana</h1>
+  <p>Hepsi aynı verileri kullanır: birinde eklediğin görev diğerlerinde de görünür (yenile ile). Tam ekran incelemek için “Ayrı aç”.</p>
+  <div class="tools">
+    <select id="size" aria-label="Telefon boyutu">
+      <option value="390x844">390×844 (standart)</option>
+      <option value="360x780">360×780 (küçük Android)</option>
+      <option value="412x915">412×915 (büyük Android)</option>
+    </select>
+    <button id="reload">Hepsini yenile</button>
+    <button id="reset" class="primary">Örnek verilere sıfırla</button>
+  </div>
+</header>
+<div class="row" id="row"></div>
+<p class="note">Henüz oluşmamış bir tasarım boş görünür — ajanlar bitirdikçe “Hepsini yenile”ye bas.</p>
+<script>
+  const designs = [
+    ['final.html',               '★ SEÇİLEN · EU4 + Warband mesaj kaydı'],
+    ['design-1-minimalist.html', '1 · Minimalist (İsviçre)'],
+    ['design-2-material.html',   '2 · Material You'],
+    ['design-3-mongol.html',     '3 · Moğol İmparatorluğu'],
+    ['design-4-medieval.html',   '4 · Orta Çağ Doğu Avrupa'],
+    ['design-5-planner.html',    '5 · Ajanda / Defter'],
+    ['design-6-gwent.html',      '6 · Witcher 3 · Gwent'],
+    ['design-7-dawnwalker.html', '7 · Blood of Dawnwalker'],
+    ['design-8-eu4.html',        '8 · Europa Universalis IV'],
+    ['design-9-warband.html',    '9 · Mount & Blade: Warband'],
+  ];
+  const row = document.getElementById('row');
+  for (const [file, name] of designs) {
+    const fig = document.createElement('figure');
+    fig.innerHTML = `<figcaption><b></b><a target="_blank">Ayrı aç ↗</a></figcaption><div class="phone"><iframe loading="lazy"></iframe></div>`;
+    fig.querySelector('b').textContent = name;
+    fig.querySelector('a').href = file;
+    fig.querySelector('iframe').src = file;
+    fig.querySelector('iframe').title = name;
+    row.appendChild(fig);
+  }
+  function setSize(v) { const [w, h] = v.split('x'); document.documentElement.style.setProperty('--w', w); document.documentElement.style.setProperty('--h', h); }
+  const sizeSel = document.getElementById('size');
+  setSize(sizeSel.value);
+  sizeSel.onchange = () => setSize(sizeSel.value);
+  const reloadAll = () => document.querySelectorAll('iframe').forEach(f => { f.src = f.src; });
+  document.getElementById('reload').onclick = reloadAll;
+  document.getElementById('reset').onclick = () => { try { localStorage.removeItem('todoapp.tasks.v1'); } catch (e) {} reloadAll(); };
+</script>
+</body>
+</html>

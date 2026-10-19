@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Görev Defteri Simgeleri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --slate-0: #0e1114; --slate-1: #181c22; --slate-2: #232930; --slate-3: #323b46;
+    --gold: #d4ad57; --gold-hi: #f6e3a1; --gold-lo: #6b4f1e;
+    --parch: #ead9b0; --ink: #e9e2d0; --muted: #a99d84;
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--slate-0); }
+  body {
+    margin: 0; color: var(--ink); font-family: "EB Garamond", Georgia, serif; font-size: 17px;
+    background: radial-gradient(1200px 700px at 30% 0%, #2b333d 0%, var(--slate-1) 55%, var(--slate-0) 100%) fixed;
+    padding: 28px 16px 60px;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; }
+  h1, h2, h3 { font-family: Cinzel, "Trajan Pro", Georgia, serif; font-weight: 700; letter-spacing: .04em; margin: 0; }
+  h1 { font-size: 30px; color: var(--gold-hi); text-shadow: 0 2px 0 #000; }
+  .sub { color: var(--muted); margin: 6px 0 0; font-style: italic; }
+  .panel {
+    position: relative; margin-top: 26px; padding: 22px 24px 26px;
+    background: linear-gradient(180deg, #262d36 0%, #1a1f26 100%);
+    border: 1px solid var(--gold-lo); border-radius: 6px;
+    box-shadow: inset 0 0 0 1px #00000080, inset 0 0 0 3px #d4ad5726, 0 10px 30px #0008;
+  }
+  .panel::before { content: ""; position: absolute; inset: 5px; border: 1px solid #d4ad5740; border-radius: 3px; pointer-events: none; }
+  .panel h2 { font-size: 22px; color: var(--gold); display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .panel h2 .tag { font-size: 13px; color: #1b1407; background: linear-gradient(#f6e3a1, #c99e48); padding: 2px 9px; border-radius: 3px; letter-spacing: .08em; }
+  .desc { margin: 6px 0 18px; color: #d8ccb0; max-width: 820px; }
+  .row { display: flex; flex-wrap: wrap; gap: 22px; align-items: flex-start; }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+  .cap { font-family: Cinzel, Georgia, serif; font-size: 11px; letter-spacing: .1em; color: var(--muted); text-transform: uppercase; text-align: center; }
+  .big { width: 248px; height: 248px; border-radius: 40px; box-shadow: 0 8px 24px #000a, 0 0 0 1px #d4ad5755; display: block; }
+  .divider { height: 1px; margin: 22px 0 18px; background: linear-gradient(90deg, transparent, #d4ad5766, transparent); }
+  svg.ic { display: block; overflow: visible; }
+
+  /* layer thumbnails */
+  .layer { width: 104px; height: 104px; border-radius: 6px; position: relative; overflow: hidden;
+    background: repeating-conic-gradient(#3a414b 0 25%, #2a3038 0 50%) 0 0/16px 16px; box-shadow: 0 0 0 1px #d4ad5740; }
+  .layer img { width: 100%; height: 100%; display: block; }
+  .layer::after { content: ""; position: absolute; left: 19.4%; top: 19.4%; width: 61.1%; height: 61.1%; border-radius: 50%; border: 1px dashed #ffffffa0; }
+
+  /* home screens */
+  .phone { width: 286px; border-radius: 30px; padding: 12px 14px 18px; position: relative; overflow: hidden;
+    box-shadow: 0 0 0 6px #0b0c0e, 0 0 0 7px #3a3f46, 0 14px 30px #000b; font-family: "Segoe UI", Roboto, "Samsung Sans", sans-serif; }
+  .phone.light { background: radial-gradient(260px 220px at 20% 15%, #fde9d2, transparent 70%), radial-gradient(300px 260px at 90% 80%, #cfe0f2, transparent 70%), linear-gradient(160deg, #f4efe7, #dfe6ee); color: #1e1e1e; }
+  .phone.dark { background: radial-gradient(260px 220px at 80% 10%, #2b3b5a, transparent 70%), radial-gradient(300px 260px at 10% 90%, #3a2430, transparent 70%), linear-gradient(160deg, #10131a, #07080b); color: #f2f2f2; }
+  .status { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; padding: 2px 8px 10px; opacity: .85; }
+  .clock { font-size: 40px; font-weight: 300; text-align: left; padding: 4px 10px 0; letter-spacing: -.02em; }
+  .date { font-size: 12px; padding: 0 12px 18px; opacity: .8; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); row-gap: 14px; justify-items: center; }
+  .app { display: flex; flex-direction: column; align-items: center; gap: 5px; width: 64px; }
+  .app .lbl { font-size: 10.5px; line-height: 1.15; text-align: center; white-space: nowrap; }
+  .phone.light .lbl { color: #1b1b1b; } .phone.dark .lbl { color: #f4f4f4; text-shadow: 0 1px 2px #000; }
+  .dock { margin-top: 18px; padding: 10px 6px; border-radius: 22px; display: grid; grid-template-columns: repeat(4, 1fr); justify-items: center; }
+  .phone.light .dock { background: #ffffff70; } .phone.dark .dock { background: #ffffff1c; }
+  .ph { width: 48px; height: 48px; display: grid; place-items: center; }
+
+  /* notification shade */
+  .shade { width: 440px; max-width: 100%; border-radius: 28px; padding: 18px 14px 22px; font-family: "Segoe UI", Roboto, sans-serif;
+    background: radial-gradient(300px 200px at 60% 120%, #5a3a2c, transparent 70%), linear-gradient(180deg, #3b3c3f, #2a2a2c 60%, #232325);
+    box-shadow: 0 0 0 6px #0b0c0e, 0 14px 30px #000b; }
+  .shade .top { color: #f2f2f2; padding: 0 10px 12px; display: flex; align-items: baseline; gap: 8px; }
+  .shade .top b { font-size: 26px; font-weight: 600; } .shade .top span { font-size: 14px; opacity: .85; }
+  .notif { display: flex; gap: 14px; align-items: flex-start; padding: 14px 16px 16px; border-radius: 30px;
+    background: linear-gradient(180deg, #5a5852e8, #48463fe8); color: #f3f3f3; position: relative; }
+  .notif .ic { flex: none; margin-top: 2px; }
+  .notif .t1 { font-size: 13.5px; font-weight: 600; } .notif .t1 span { font-weight: 400; opacity: .7; margin-left: 6px; }
+  .notif .t2 { font-size: 16px; font-weight: 700; margin-top: 3px; }
+  .notif .t3 { font-size: 14.5px; margin-top: 3px; line-height: 1.35; opacity: .95; }
+  .notif .chev { position: absolute; right: 18px; top: 14px; width: 12px; height: 12px; border-left: 2px solid #ddd; border-top: 2px solid #ddd; transform: rotate(45deg); margin-top: 4px; }
+  .notif.ghost { margin-top: 8px; opacity: .55; }
+  .ghostbar { height: 10px; border-radius: 5px; background: #ffffff40; }
+
+  /* sizes strip */
+  .sizes { display: flex; align-items: flex-end; gap: 18px; padding: 14px 18px; border-radius: 10px; }
+  .sizes.l { background: #ece6db; } .sizes.d { background: #0c0d10; }
+  .sizes .cap { color: #777; }
+
+  .themed { display: flex; gap: 16px; padding: 14px 18px; border-radius: 12px; }
+  .themed.l { background: #e8eef7; } .themed.d { background: #12161d; }
+
+  .compare { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 16px; }
+  .compare .card { text-align: center; padding: 16px 10px 14px; border-radius: 6px; background: #ffffff08; border: 1px solid #d4ad5733; }
+  .compare .card h3 { color: var(--gold); font-size: 16px; margin-top: 12px; }
+  .compare .card p { margin: 4px 0 0; color: #cdbf9f; font-size: 15px; }
+  .compare .card .ic { margin: 0 auto; }
+  .notes { color: #cdbf9f; font-size: 15.5px; line-height: 1.5; }
+  .notes b { color: var(--gold-hi); font-weight: 600; }
+  @media (max-width: 760px) { .compare { grid-template-columns: 1fr; } .big { width: 200px; height: 200px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Görev Defteri · Uygulama Simgesi</h1>
+  <p class="sub">Deri defter referansından türetilmiş üç Android başlatıcı simgesi taslağı — uyarlanabilir (adaptive) katmanlarla, gerçek boyutta ve bildirim panelinde.</p>
+
+  <section class="panel">
+    <h2>Karşılaştırma</h2>
+    <div class="compare" id="compare"></div>
+    <div class="divider"></div>
+    <div class="sizes d" id="allsmall-d" style="justify-content:center"></div>
+    <div class="sizes l" id="allsmall-l" style="justify-content:center;margin-top:10px"></div>
+  </section>
+
+  <div id="concepts"></div>
+
+  <section class="panel">
+    <h2>Notlar</h2>
+    <p class="notes">
+      Her taslak 108dp'lik uyarlanabilir tuvalde (1024 px) çizildi: <b>ön plan</b> şeffaf, tüm önemli öğeler ortadaki
+      66dp güvenli dairenin içinde; <b>arka plan</b> opak; <b>tek renk</b> katmanı Android 13+ temalı simge içindir.
+      Katman küçük resimlerindeki kesikli daire güvenli alanı gösterir. <b>…-icon-1024.png</b> eski (legacy) ve Play Store
+      için tam kare görünümdür. Kaynaklar: <b>a.svg / b.svg / c.svg</b> (katman SVG'leri ve üreteçler <b>src/</b> klasöründe).
+    </p>
+  </section>
+</div>
+
+<script>
+const CONCEPTS = [
+  { id: 'a', tag: 'A', name: 'Deri Defter', desc: 'Referanstaki defterin kapağı, simgenin tamamını kaplıyor: yarım mandala kabartması, çiçekli kapak şeridi ve ortada pirinç kilit. Referansa en sadık taslak.' },
+  { id: 'b', tag: 'B', name: 'Pirinç Kilit', desc: 'Kilide yakın çekim: iri perçinli pirinç menteşe ve kanca, arkasında dikişli kapak kenarı ve büyük mandala halkaları. 48dp’de en hızlı okunan biçim.' },
+  { id: 'c', tag: 'C', name: 'Mühürlü Defter', desc: 'Kayrak (slate) EU4 panelinde altın çerçeveli bir defter: pirinç köşelikler, kırmızı kurdele ve altın hilal-yıldızlı mum mühür. Uygulamanın oyun içi görünümüne bağlanıyor.' },
+];
+
+// superellipse (One UI benzeri squircle) path inside the visible 72dp box (18..90)
+function squirclePath(n = 4.2) {
+  let d = '';
+  for (let i = 0; i <= 128; i++) {
+    const t = i / 128 * Math.PI * 2, c = Math.cos(t), s = Math.sin(t);
+    const x = 54 + 36 * Math.sign(c) * Math.pow(Math.abs(c), 2 / n), y = 54 + 36 * Math.sign(s) * Math.pow(Math.abs(s), 2 / n);
+    d += (i ? 'L' : 'M') + x.toFixed(2) + ',' + y.toFixed(2);
+  }
+  return d + 'Z';
+}
+const SQ = squirclePath();
+const SHAPES = {
+  circle: '<circle cx="54" cy="54" r="36"/>',
+  squircle: `<path d="${SQ}"/>`,
+  rsquare: '<rect x="18" y="18" width="72" height="72" rx="15"/>',
+  rsmall: '<rect x="18" y="18" width="72" height="72" rx="19"/>',
+};
+let uid = 0;
+// adaptive icon: background + foreground layers, clipped to a launcher mask (visible 72dp of the 108dp canvas)
+function adaptive(c, size, shape = 'squircle', shadow = false) {
+  const id = 'm' + (uid++);
+  return `<svg class="ic" width="${size}" height="${size}" viewBox="18 18 72 72" ${shadow ? 'style="filter:drop-shadow(0 1px 1.5px #0006)"' : ''}>
+    <defs><clipPath id="${id}">${SHAPES[shape]}</clipPath></defs>
+    <g clip-path="url(#${id})">
+      <image href="${c}-background.png" x="0" y="0" width="108" height="108" preserveAspectRatio="none"/>
+      <image href="${c}-foreground.png" x="0" y="0" width="108" height="108" preserveAspectRatio="none"/>
+    </g></svg>`;
+}
+// themed icon (Android 13+): monochrome layer tinted on a pastel/dark tile
+function themed(c, size, bg, fg, shape = 'squircle') {
+  const id = 'm' + (uid++);
+  return `<svg class="ic" width="${size}" height="${size}" viewBox="18 18 72 72">
+    <defs><clipPath id="${id}">${SHAPES[shape]}</clipPath>
+      <filter id="${id}f" color-interpolation-filters="sRGB"><feFlood flood-color="${fg}"/><feComposite in2="SourceAlpha" operator="in"/></filter></defs>
+    <g clip-path="url(#${id})"><rect x="0" y="0" width="108" height="108" fill="${bg}"/>
+      <image href="${c}-monochrome.png" x="0" y="0" width="108" height="108" filter="url(#${id}f)"/></g></svg>`;
+}
+// neutral placeholder app icons
+const PH = [
+  ['Takvim', '#e9ecef', '#5b6470', 'M-9,-8h18v17h-18z M-9,-3h18'],
+  ['Saat', '#2f3742', '#e9edf2', 'M0,-10a10,10 0 1 0 0.01,0 M0,-6v6l5,3'],
+  ['Galeri', '#f1e3e6', '#a05062', 'M-10,8l7,-9l5,6l3,-3l5,6z M5,-6a2.5,2.5 0 1 0 0.01,0'],
+  ['Ayarlar', '#d7dde4', '#46505c', 'M0,-7a7,7 0 1 0 0.01,0 M0,-2.5a2.5,2.5 0 1 0 0.01,0'],
+  ['Mesajlar', '#dfe9f6', '#3d6aa8', 'M-10,-7h20v12h-12l-5,4v-4h-3z'],
+  ['Kamera', '#3a3f46', '#dfe3e8', 'M-10,-5h20v13h-20z M0,1.5a4,4 0 1 0 0.01,0'],
+  ['Notlar', '#f4ecd2', '#8a7232', 'M-8,-10h16v20h-16z M-4,-4h8 M-4,1h8 M-4,6h5'],
+  ['Hava', '#dcecf2', '#3a7c96', 'M-9,4a5,5 0 0 1 3,-9a7,7 0 0 1 13,3a4,4 0 0 1 0,6z'],
+  ['Telefon', '#dff0e2', '#3b8a55', 'M-6,-9l4,0l2,5l-3,2a12,12 0 0 0 6,6l2,-3l5,2l0,4a3,3 0 0 1 -3,3a17,17 0 0 1 -16,-16a3,3 0 0 1 3,-3z'],
+  ['Tarayıcı', '#e6e2f2', '#5c4f9a', 'M0,-10a10,10 0 1 0 0.01,0 M-10,0h20 M0,-10c-5,5 -5,15 0,20 M0,-10c5,5 5,15 0,20'],
+  ['Müzik', '#f6e2d6', '#b0583a', 'M-3,6a3,3 0 1 1 0,-0.01 M0,6v-15l8,2'],
+];
+function placeholder(i, size = 48) {
+  const [name, bg, fg, d] = PH[i % PH.length]; const id = 'm' + (uid++);
+  return { name, html: `<svg class="ic" width="${size}" height="${size}" viewBox="18 18 72 72"><defs><clipPath id="${id}">${SHAPES.squircle}</clipPath></defs>
+    <g clip-path="url(#${id})"><rect x="0" y="0" width="108" height="108" fill="${bg}"/></g>
+    <g transform="translate(54,54) scale(1.25)" fill="none" stroke="${fg}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></g></svg>` };
+}
+function homeScreen(c, theme) {
+  const order = [0, 1, 2, 3, 4, 'X', 5, 6, 7, 8, 9, 10];
+  const apps = order.map(k => k === 'X'
+    ? `<div class="app"><div class="ph">${adaptive(c, 48, 'squircle', true)}</div><div class="lbl">Görev Defteri</div></div>`
+    : (p => `<div class="app"><div class="ph">${p.html}</div><div class="lbl">${p.name}</div></div>`)(placeholder(k)));
+  const dock = [8, 4, 9, 5].map(k => `<div class="ph">${placeholder(k).html}</div>`).join('');
+  return `<div class="phone ${theme}"><div class="status"><span>17:05</span><span>▲ ◆ 57%</span></div>
+    <div class="clock">17:05</div><div class="date">17 Ekim Cumartesi · İstanbul 18°</div>
+    <div class="grid">${apps.join('')}</div><div class="dock">${dock}</div></div>`;
+}
+function notification(c) {
+  return `<div class="shade"><div class="top"><b>17:05</b><span>17 Eki Cmt</span></div>
+    <div class="notif"><div class="ic">${adaptive(c, 52, 'rsmall')}</div>
+      <div><div class="t1">Görev Defteri <span>17:05</span></div>
+        <div class="t2">⚔ Ulak geldi!</div>
+        <div class="t3">«Deneme seferi» yarım saat sonra başlıyor (17:35).</div></div><div class="chev"></div></div>
+    <div class="notif ghost"><div class="ic">${placeholder(4, 52).html}</div><div style="flex:1;padding-top:6px"><div class="ghostbar" style="width:55%"></div><div class="ghostbar" style="width:85%;margin-top:9px"></div></div></div>
+  </div>`;
+}
+function sizes(c, cls) {
+  return `<div class="sizes ${cls}">${[24, 36, 48, 72].map(s => `<div class="cell">${adaptive(c, s, 'squircle', cls === 'l')}<div class="cap">${s}px</div></div>`).join('')}</div>`;
+}
+
+// comparison
+document.getElementById('compare').innerHTML = CONCEPTS.map(k => `<div class="card">${adaptive(k.id, 150, 'squircle', true)}<h3>${k.tag} · ${k.name}</h3><p>${k.desc.split(':')[0]}.</p></div>`).join('');
+for (const [el, cls] of [['allsmall-d', 'd'], ['allsmall-l', 'l']]) {
+  document.getElementById(el).innerHTML = CONCEPTS.map(k => [24, 36, 48, 72].map(s => `<div class="cell">${adaptive(k.id, s, 'squircle', cls === 'l')}<div class="cap">${k.tag} ${s}</div></div>`).join('')).join('<div style="width:22px"></div>');
+}
+
+document.getElementById('concepts').innerHTML = CONCEPTS.map(k => `
+  <section class="panel">
+    <h2><span class="tag">${k.tag}</span>${k.name}</h2>
+    <p class="desc">${k.desc}</p>
+    <div class="row">
+      <div class="cell"><img class="big" src="${k.id}-icon-1024.png" alt="${k.name}"><div class="cap">Büyük görünüm (1024)</div></div>
+      <div class="cell">${adaptive(k.id, 150, 'circle', true)}<div class="cap">Daire</div></div>
+      <div class="cell">${adaptive(k.id, 150, 'squircle', true)}<div class="cap">Squircle (One UI)</div></div>
+      <div class="cell">${adaptive(k.id, 150, 'rsquare', true)}<div class="cap">Yuvarlak kare</div></div>
+      <div class="cell" style="gap:10px">
+        <div class="row" style="gap:10px">
+          <div class="cell"><div class="layer"><img src="${k.id}-foreground.png"></div><div class="cap">Ön plan</div></div>
+          <div class="cell"><div class="layer"><img src="${k.id}-background.png"></div><div class="cap">Arka plan</div></div>
+        </div>
+        <div class="cell"><div class="layer" style="background:#1d2a3a"><img src="${k.id}-monochrome.png"></div><div class="cap">Tek renk</div></div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="row">
+      <div class="cell">${homeScreen(k.id, 'light')}<div class="cap">Açık duvar kâğıdı · 48dp</div></div>
+      <div class="cell">${homeScreen(k.id, 'dark')}<div class="cap">Koyu duvar kâğıdı · 48dp</div></div>
+      <div class="cell">${notification(k.id)}<div class="cap">Bildirim paneli (One UI)</div></div>
+    </div>
+    <div class="row" style="margin-top:22px">
+      <div class="cell"><div class="row" style="gap:12px">${sizes(k.id, 'l')}${sizes(k.id, 'd')}</div><div class="cap">Gerçek boyut testi · açık / koyu zemin</div></div>
+      <div class="cell"><div class="row" style="gap:12px">
+          <div class="themed l">${themed(k.id, 56, '#d6e3f5', '#1f3a5f')}${themed(k.id, 56, '#f2e0d0', '#5c3a1c', 'circle')}</div>
+          <div class="themed d">${themed(k.id, 56, '#2b3a4f', '#c7dbf5')}${themed(k.id, 56, '#3d2f24', '#f0d6b4', 'circle')}</div>
+        </div><div class="cap">Temalı simge (Android 13+) · açık / koyu</div></div>
+    </div>
+  </section>`).join('');
+</script>
+</body>
+</html>

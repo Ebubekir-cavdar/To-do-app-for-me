@@ -1,0 +1,106 @@
+{
+  "expo": {
+    "name": "Görev Defteri",
+    "slug": "gorev-defteri",
+    "scheme": "gorevdefteri",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "backgroundColor": "#1b2027",
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.gorevdefteri.app",
+      "googleServicesFile": "./google-services.json",
+      "adaptiveIcon": {
+        "backgroundColor": "#1b2027",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "permissions": [
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.USE_EXACT_ALARM",
+        "android.permission.SCHEDULE_EXACT_ALARM"
+      ],
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
+      ]
+    },
+    "runtimeVersion": {
+      "policy": "fingerprint"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "enableMinifyInReleaseBuilds": true,
+            "enableShrinkResourcesInReleaseBuilds": true,
+            "buildArchs": [
+              "arm64-v8a",
+              "armeabi-v7a"
+            ]
+          }
+        }
+      ],
+      "expo-font",
+      [
+        "expo-audio",
+        {
+          "recordAudioAndroid": false,
+          "enableBackgroundPlayback": false
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#1b2027",
+          "image": "./assets/icon.png",
+          "imageWidth": 120
+        }
+      ],
+      "@react-native-firebase/app",
+      "@react-native-firebase/auth",
+      "@react-native-google-signin/google-signin",
+      "expo-asset",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/notifications/icon.png",
+          "color": "#d4ad57",
+          "sounds": [
+            "./assets/sounds/hatirlatma.mp3"
+          ]
+        }
+      ]
+    ],
+    "extra": {
+      "googleWebClientId": "213924084932-vean3fl9aktd6600rdsnegatqgk7h0ee.apps.googleusercontent.com",
+      "router": {
+        "asyncRoutes": {
+          "web": true
+        }
+      },
+      "eas": {
+        "projectId": "18f047c4-1ba4-416a-8b57-ab59544ee9d2"
+      }
+    },
+    "experiments": {
+      "reactCompiler": true
+    },
+    "owner": "beducuk",
+    "updates": {
+      "url": "https://u.expo.dev/18f047c4-1ba4-416a-8b57-ab59544ee9d2"
+    }
+  }
+}

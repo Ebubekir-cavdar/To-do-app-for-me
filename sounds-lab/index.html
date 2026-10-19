@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ses Seçimi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Alegreya:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root { --page:#14181e; --panel:#252c35; --line:#a9823a; --gold:#f6e3a1; --cream:#f3e7c6; --muted:#b9ab88; --ink:#2b2014; --parch:#ead9b0; --green:#9be06f; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--page); color:var(--cream); font:17px/1.45 Alegreya, Georgia, serif; }
+  main { max-width:760px; margin:0 auto; padding:24px 16px 48px; }
+  h1 { font:700 26px/1.2 Cinzel, serif; color:var(--gold); letter-spacing:.04em; margin:0 0 6px; }
+  .lead { color:var(--muted); margin:0 0 22px; }
+  section { background:var(--panel); border:2px solid var(--line); border-radius:6px; padding:14px 16px 16px; margin:0 0 16px; box-shadow:0 6px 18px rgba(0,0,0,.35); }
+  h2 { font:700 17px/1.2 Cinzel, serif; color:var(--gold); margin:0 0 2px; letter-spacing:.05em; }
+  .where { color:var(--muted); font-style:italic; margin:0 0 12px; font-size:15.5px; }
+  .opts { display:flex; flex-wrap:wrap; gap:10px; }
+  button { font:700 16px/1 Alegreya, serif; color:var(--ink); background:linear-gradient(#f3e6c3,#dcc591); border:2px solid #6b4f1e;
+    border-radius:4px; padding:12px 14px; min-height:46px; cursor:pointer; display:flex; align-items:center; gap:8px; }
+  button:active, button.playing { background:linear-gradient(#dcc591,#c9ad6c); }
+  button .tag { font:700 13px/1 Cinzel, serif; background:#3a2a10; color:var(--gold); padding:4px 6px; border-radius:3px; }
+  .ref { border-style:dashed; }
+  .note { color:var(--muted); font-size:15px; margin-top:22px; }
+  code { color:var(--gold); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Görev Defteri — Ses Seçimi</h1>
+  <p class="lead">Her olay için 2–3 seçenek var. Dinle, sonra bana her olay için harf söyle (örneğin “Dokunma A, Pencere B, Ekleme yok”). <b>“Yok”</b> da bir seçenek, o olayda ses çalmaz. Hepsi sıfırdan sentezlendi.</p>
+
+  <section>
+    <h2>Karşılaştırma için mevcut sesler</h2>
+    <p class="where">Uygulamada zaten olanlar. Yeni seslerin yüksekliğini bunlarla kıyasla.</p>
+    <div class="opts">
+      <button class="ref" data-src="../mobile/assets/sounds/done.mp3"><span class="tag">✓</span>Görev bitti (Mount &amp; Blade)</button>
+      <button class="ref" data-src="../mobile/assets/sounds/ferman.mp3"><span class="tag">📜</span>Ferman ilan et (senin sesin)</button>
+    </div>
+  </section>
+
+  <section style="border-color:#c0392b">
+    <h2>YENİ · Görev başarısız</h2>
+    <p class="where">Bir görevi basılı tutup “başarısız” işaretleyince (örneğin kaçırılan buluşma).</p>
+    <div class="opts">
+      <button data-src="wav/fail_a_kirik_muhur.wav"><span class="tag">A</span>Kırılan mühür + boğuk vuruş</button>
+      <button data-src="wav/fail_b_ud_minor.wav"><span class="tag">B</span>Ud: inen hüzünlü üç nota</button>
+      <button data-src="wav/fail_c_davul_can.wav"><span class="tag">C</span>Boğuk davul + yenilgi çanı</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>1 · Dokunma</h2>
+    <p class="where">Her düğmede: +, ‹ ›, gün ve süre seçimleri, menüler. En sık duyulacak ses, o yüzden kısık ve kısa.</p>
+    <div class="opts">
+      <button data-src="wav/tap_a_ahsap.wav"><span class="tag">A</span>Ahşap tık</button>
+      <button data-src="wav/tap_b_parsomen.wav"><span class="tag">B</span>Parşömen tıkırtısı</button>
+      <button data-src="wav/tap_c_pirinc.wav"><span class="tag">C</span>Pirinç klik</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>2 · Pencere açılışı</h2>
+    <p class="where">Görev ekleme, silme ve ferman pencereleri açılırken (EU4'teki olay penceresi gibi).</p>
+    <div class="opts">
+      <button data-src="wav/open_a_ferman_acilir.wav"><span class="tag">A</span>Parşömen açılması</button>
+      <button data-src="wav/open_b_davul.wav"><span class="tag">B</span>Savaş davulu</button>
+      <button data-src="wav/open_c_can.wav"><span class="tag">C</span>Çan</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>3 · Görev ekleme</h2>
+    <p class="where">“Ekle”ye basınca, görev deftere işlenirken.</p>
+    <div class="opts">
+      <button data-src="wav/add_a_tuy_kalem.wav"><span class="tag">A</span>Tüy kalem + damga</button>
+      <button data-src="wav/add_b_muhur.wav"><span class="tag">B</span>Mühür basma</button>
+      <button data-src="wav/add_c_ud_yukselen.wav"><span class="tag">C</span>Ud: yükselen iki nota</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>4 · Görev silme</h2>
+    <p class="where">“Sil”e veya “Bu ve sonrakileri sil”e basınca.</p>
+    <div class="opts">
+      <button data-src="wav/del_a_kagit_yirtma.wav"><span class="tag">A</span>Kâğıt yırtma</button>
+      <button data-src="wav/del_b_burusturma.wav"><span class="tag">B</span>Kâğıt buruşturma</button>
+      <button data-src="wav/del_c_ud_inen.wav"><span class="tag">C</span>Ud: inen iki nota</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>5 · Tik geri alma</h2>
+    <p class="where">Biten bir görevin tikini kaldırınca.</p>
+    <div class="opts">
+      <button data-src="wav/undo_a_tahta_inen.wav"><span class="tag">A</span>İnen iki tahta vuruşu</button>
+      <button data-src="wav/undo_b_ters_hisirti.wav"><span class="tag">B</span>Ters hışırtı</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>6 · Hafta değiştirme</h2>
+    <p class="where">Yana kaydırınca ya da ‹ › ile hafta değişince.</p>
+    <div class="opts">
+      <button data-src="wav/week_a_sayfa_cevir.wav"><span class="tag">A</span>Sayfa çevirme</button>
+      <button data-src="wav/week_b_ruzgar.wav"><span class="tag">B</span>Hafif rüzgâr</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>7 · Hata</h2>
+    <p class="where">Örneğin başlığı boş bırakıp “Ekle”ye basınca.</p>
+    <div class="opts">
+      <button data-src="wav/err_a_cift_vurus.wav"><span class="tag">A</span>Boğuk çift vuruş</button>
+      <button data-src="wav/err_b_boguk_tel.wav"><span class="tag">B</span>Boğuk tel</button>
+    </div>
+  </section>
+
+  <p class="note">Bir ses çok yüksek, çok kısık, uzun ya da “şuna benzesin” gibi bir isteğin varsa yaz, yeniden üretirim.</p>
+</main>
+<script>
+  let current = null;
+  document.querySelectorAll('button[data-src]').forEach((b) => {
+    b.addEventListener('click', () => {
+      if (current) { current.audio.pause(); current.btn.classList.remove('playing'); }
+      const audio = new Audio(b.dataset.src);
+      current = { audio, btn: b };
+      b.classList.add('playing');
+      audio.addEventListener('ended', () => b.classList.remove('playing'));
+      audio.play().catch(() => b.classList.remove('playing'));
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+# What EAS Build leaves out of its upload. When this file exists EAS uses it instead of
+# .gitignore, so files kept out of git (google-services.json, the third-party sounds in
+# assets/sounds) are still uploaded and the build has them.
+
+node_modules/
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+*.log
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.keystore
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.pem
+credentials.json
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+
+# local env files
+.env*.local
+
+# typescript
+*.tsbuildinfo
+
+# generated native folders
+/ios
+/android

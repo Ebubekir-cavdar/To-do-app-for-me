@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<script src="done-sound.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4a2c19">
+<title>Gök Defter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sky-0: #0c2a55;
+    --sky-1: #1a4f93;
+    --sky-2: #2e75c2;
+    --sky-3: #9cc3e6;
+    --felt: #f3e9d3;
+    --felt-card: #fbf5e7;
+    --felt-line: #d9c49a;
+    --leather: #6a4127;
+    --leather-2: #432817;
+    --ink: #2a1a0f;
+    --ink-2: #5b4330;
+    --ink-3: #85705a;
+    --gold: #d6a03c;
+    --gold-2: #f0c867;
+    --ochre: #b9822c;
+    --banner-red: #9f2a20;
+    --alarm: #d0121a;
+    --alarm-bg: #fde3df;
+    --seal: #1a4f93;
+    --felt-noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .42  0 0 0 0 .3  0 0 0 0 .16  0 0 0 .16 0'/></filter><rect width='160' height='160' filter='url(%23n)'/></svg>");
+    --leather-noise: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='l'><feTurbulence type='fractalNoise' baseFrequency='.045 .09' numOctaves='4' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .55 -.12'/></filter><rect width='200' height='200' filter='url(%23l)'/></svg>");
+    --khee-red: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 16 12'><rect width='16' height='12' fill='%239f2a20'/><path d='M0 1.4H16M0 10.6H16M4 1.4V7.4M1 7.4H7M12 10.6V4.6M9 4.6H15' stroke='%23e8b64c' stroke-width='1.4' fill='none'/></svg>");
+    --khee-blue: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='12' viewBox='0 0 16 12'><rect width='16' height='12' fill='%231a4f93'/><path d='M0 1.4H16M0 10.6H16M4 1.4V7.4M1 7.4H7M12 10.6V4.6M9 4.6H15' stroke='%23f0c867' stroke-width='1.4' fill='none'/></svg>");
+    --nav-h: 82px;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    font-family: "Source Sans 3", "Segoe UI", system-ui, sans-serif;
+    font-size: 16px;
+    color: var(--ink);
+    background: #3a2313 var(--leather-noise);
+    min-height: 100vh;
+    -webkit-tap-highlight-color: transparent;
+  }
+  button { font: inherit; color: inherit; cursor: pointer; touch-action: manipulation; }
+  :focus-visible { outline: 3px solid var(--sky-2); outline-offset: 2px; }
+
+  .app {
+    position: relative;
+    max-width: 430px;
+    min-height: 100vh;
+    margin: 0 auto;
+    background: var(--felt) var(--felt-noise);
+    box-shadow: 0 0 0 1px #0006, 0 0 60px #000a;
+    overflow-x: clip;
+  }
+
+  /* ---------- Banner: Tengri sky over the steppe ---------- */
+  .banner { position: relative; height: 178px; color: #fff; overflow: hidden; }
+  .banner .scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .brand {
+    position: relative;
+    display: flex; align-items: center; gap: 12px;
+    padding: 18px 84px 0 16px;
+  }
+  .brand .toono { flex: none; width: 58px; height: 58px; filter: drop-shadow(0 2px 0 #0b234a); }
+  .brand h1 {
+    margin: 0;
+    font-family: "Cinzel", serif; font-weight: 800;
+    font-size: clamp(23px, 7vw, 27px); letter-spacing: .05em; line-height: 1.05; white-space: nowrap;
+    text-shadow: 0 2px 0 #0b234a;
+  }
+  .brand .sub {
+    margin: 4px 0 0;
+    font-family: "Cinzel", serif; font-weight: 700;
+    font-size: 12.5px; letter-spacing: .16em;
+    color: var(--gold-2);
+  }
+  .brand .todayline { margin: 6px 0 0; font-size: 14px; color: #e6f0fb; font-weight: 600; }
+
+  /* ---------- Sticky leather nav ---------- */
+  .nav {
+    position: sticky; top: 0; z-index: 20;
+    background: var(--leather-noise), linear-gradient(#6a4127, #4f301b);
+    color: var(--felt);
+    box-shadow: 0 4px 10px #2a160a55;
+  }
+  .nav-row { display: flex; align-items: center; gap: 6px; padding: 7px 10px; min-height: 70px; }
+  .iconbtn {
+    flex: none; width: 44px; height: 44px; border-radius: 50%;
+    border: 1.5px solid #e8b64c99;
+    background: #ffffff12;
+    color: var(--gold-2);
+    display: grid; place-items: center;
+    padding: 0;
+  }
+  .iconbtn:active { background: #ffffff26; }
+  .iconbtn svg { width: 22px; height: 22px; }
+  .range { flex: 1; min-width: 0; text-align: center; line-height: 1.15; }
+  .range .w {
+    display: block; font-size: 11.5px; font-weight: 700; letter-spacing: .14em;
+    color: var(--gold-2); text-transform: uppercase;
+  }
+  .range .r {
+    display: block; margin-top: 2px;
+    font-family: "Cinzel", serif; font-weight: 700; font-size: 17px; color: #fbf3e2;
+  }
+  .todaybtn {
+    flex: none; height: 44px; padding: 0 14px; border-radius: 10px; border: none;
+    background: linear-gradient(160deg, #f6d77e, #d6a03c 50%, #ad7a22);
+    color: #3f2615; font-weight: 800; font-size: 15px; letter-spacing: .02em;
+    box-shadow: inset 0 0 0 1.5px #fff1bf99, 0 2px 0 #2a160a88;
+  }
+  .todaybtn:active { transform: translateY(1px); box-shadow: inset 0 0 0 1.5px #fff1bf99; }
+  .strip { height: 12px; background: var(--khee-red); background-size: 16px 12px; border-top: 1px solid #e8b64c; }
+
+  /* ---------- The journey: days as stations ---------- */
+  main { padding: 18px 12px 28px 0; touch-action: pan-y; }
+  .days { position: relative; padding-left: 36px; }
+  .days::before {
+    content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 3px; border-radius: 2px;
+    background: repeating-linear-gradient(to bottom, var(--ochre) 0 9px, transparent 9px 15px);
+    opacity: .85;
+  }
+  .days.drag { transition: none; user-select: none; }
+  .days.settle { transition: transform .25s ease; }
+  .days.in-next { animation: inNext .32s ease both; }
+  .days.in-prev { animation: inPrev .32s ease both; }
+  .days.in-fade { animation: inFade .3s ease both; }
+  @keyframes inNext { from { transform: translateX(46px); opacity: 0; } }
+  @keyframes inPrev { from { transform: translateX(-46px); opacity: 0; } }
+  @keyframes inFade { from { opacity: 0; transform: translateY(8px); } }
+
+  .day { position: relative; margin: 0 0 14px; scroll-margin-top: calc(var(--nav-h) + 10px); }
+  .station {
+    position: absolute; left: -27px; top: 18px;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: var(--felt); border: 3px solid var(--leather);
+  }
+  .day.past .station { background: var(--leather); border-color: var(--leather-2); }
+  .day.today .station {
+    left: -31px; top: 13px; width: 26px; height: 26px;
+    background: var(--sky-1); border: 3px solid var(--gold);
+    box-shadow: 0 0 0 4px #1a4f9330;
+    display: grid; place-items: center;
+  }
+  .day.today .station svg { width: 16px; height: 16px; }
+
+  .card {
+    position: relative;
+    background: var(--felt-card) var(--felt-noise);
+    border: 1px solid #cdb487;
+    border-radius: 14px;
+    box-shadow: inset 0 1px 0 #fff, 0 2px 6px #4a2c1922;
+  }
+  .card::after {
+    content: ""; position: absolute; inset: 5px; pointer-events: none;
+    border: 1.5px dashed #b9822c5c; border-radius: 10px;
+  }
+  .day.past .card { background-color: #f6eedd; }
+  .day.today .card {
+    border: 2px solid var(--sky-1);
+    background-color: #fdf9ef;
+    box-shadow: 0 8px 22px #1a4f9338;
+    padding-top: 10px;
+    overflow: hidden;
+  }
+  .day.today .card::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 10px;
+    background: var(--khee-blue); background-size: 16px 12px; background-position: 0 -1px;
+  }
+  .day.today .card::after { top: 15px; border-color: #1a4f9340; }
+
+  .day-head { display: flex; align-items: center; gap: 8px; padding: 9px 9px 5px 15px; min-height: 60px; }
+  .day-title { min-width: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 6px; }
+  .dname { font-family: "Cinzel", serif; font-weight: 700; font-size: 18.5px; color: var(--leather-2); letter-spacing: .02em; }
+  .ddate { font-size: 15.5px; font-weight: 600; color: var(--ink-2); white-space: nowrap; }
+  .day.today .dname { color: var(--sky-1); }
+  .badge-today {
+    flex: none; display: inline-flex; align-items: center; gap: 4px;
+    font-size: 12.5px; font-weight: 800; letter-spacing: .04em;
+    background: var(--sky-1); color: #fff; padding: 3px 9px 3px 7px; border-radius: 999px;
+  }
+  .badge-today svg { width: 13px; height: 13px; }
+
+  /* Paiza – golden tablet add button */
+  .paiza {
+    flex: none; margin-left: auto; position: relative;
+    width: 44px; height: 50px; padding: 0 0 7px; border: none;
+    border-radius: 22px 22px 9px 9px;
+    background: linear-gradient(160deg, #f8dc88, #d6a03c 48%, #a8741f);
+    box-shadow: inset 0 0 0 2px #fff3c4aa, inset 0 0 0 4px #8a5a1a40, 0 2px 4px #4a2c1955;
+    color: #4a2c19;
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+  .paiza::before {
+    content: ""; position: absolute; top: 7px; left: 50%; width: 9px; height: 9px; margin-left: -4.5px;
+    border-radius: 50%; background: #3f2615; box-shadow: 0 0 0 2px #fbe7a6;
+  }
+  .paiza svg { width: 20px; height: 20px; }
+  .paiza:active { transform: translateY(1px) scale(.97); }
+
+  .overdue-chip {
+    display: flex; align-items: center; gap: 8px;
+    margin: 0 12px 8px 14px; min-height: 44px; padding: 6px 12px;
+    border: 1.5px solid var(--alarm); border-radius: 10px;
+    background: var(--alarm-bg); color: var(--alarm);
+    font-weight: 800; font-size: 15px; text-align: left;
+  }
+  .overdue-chip svg { width: 20px; height: 20px; flex: none; }
+  .overdue-chip .go { margin-left: auto; font-weight: 700; font-size: 13px; opacity: .85; }
+
+  .empty {
+    display: flex; align-items: center; gap: 9px;
+    margin: 0 14px; padding: 4px 0 14px;
+    color: var(--ink-3); font-style: italic; font-size: 15px;
+  }
+  .empty svg { width: 20px; height: 20px; color: #c3a46e; flex: none; }
+
+  /* ---------- Tasks ---------- */
+  .tasks { list-style: none; margin: 0; padding: 0 8px 8px; }
+  .task {
+    position: relative; display: flex; align-items: flex-start;
+    min-height: 50px; border-radius: 8px;
+  }
+  .task + .task::before {
+    content: ""; position: absolute; left: 48px; right: 8px; top: 0; height: 1px; background: var(--felt-line);
+  }
+  .mark {
+    flex: none; width: 50px; height: 50px; padding: 0; border: none; background: none;
+    display: grid; place-items: center;
+  }
+  .mark svg { width: 36px; height: 36px; overflow: visible; }
+  .mark .ring { fill: #fffaf0; stroke: var(--leather); stroke-width: 2; stroke-dasharray: 3.2 2.4; transition: opacity .2s; }
+  .mark .seal { opacity: 0; transform-box: fill-box; transform-origin: center; transform: rotate(-9deg) scale(.5); transition: opacity .15s, transform .2s; }
+  .task.done .mark .ring { opacity: .25; }
+  .task.done .mark .seal { opacity: 1; transform: rotate(-9deg) scale(1); }
+  .task.stamped .mark .seal { animation: stamp .42s cubic-bezier(.3, 1.4, .5, 1) both; }
+  @keyframes stamp {
+    0% { opacity: 0; transform: rotate(-24deg) scale(1.9); }
+    55% { opacity: 1; transform: rotate(-9deg) scale(.9); }
+    100% { opacity: 1; transform: rotate(-9deg) scale(1); }
+  }
+
+  .tbody {
+    flex: 1; min-width: 0; min-height: 50px;
+    display: flex; align-items: center; flex-wrap: wrap; gap: 3px 8px;
+    padding: 8px 8px 8px 2px; border: none; background: none; text-align: left;
+    border-radius: 8px;
+  }
+  .tbody:active { background: #b9822c18; }
+  .time {
+    flex: none; font-variant-numeric: tabular-nums; font-weight: 700; font-size: 14px;
+    color: var(--sky-1); background: #1a4f9312; border: 1px solid #1a4f9338;
+    border-radius: 6px; padding: 1px 6px;
+  }
+  .title { font-size: 16.5px; line-height: 1.3; overflow-wrap: anywhere; color: var(--ink); }
+  .late {
+    flex: none; font-size: 11.5px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    color: #fff; background: var(--alarm); border-radius: 4px; padding: 1px 6px;
+  }
+
+  .task.done .title,
+  .task.done .time {
+    text-decoration-line: line-through;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--leather);
+  }
+  .task.done .title { color: #7d6852; }
+  .task.done .time { color: #7d6852; background: transparent; border-color: #7d685240; }
+
+  .task.overdue { background: linear-gradient(90deg, var(--alarm-bg), #fde3df00 85%); }
+  .task.overdue::after {
+    content: ""; position: absolute; left: 0; top: 6px; bottom: 6px; width: 4px; border-radius: 2px; background: var(--alarm);
+  }
+  .task.overdue + .task::before, .task + .task.overdue::before { display: none; }
+  .task.overdue .title { color: var(--alarm); font-weight: 700; }
+  .task.overdue .time { color: var(--alarm); background: #fff; border-color: #d0121a66; }
+  .task.overdue .mark .ring { stroke: var(--alarm); stroke-dasharray: none; stroke-width: 2.4; }
+
+  .task.fresh { animation: fresh .45s ease both; }
+  @keyframes fresh { from { opacity: 0; transform: translateY(-6px); background: #f0c86766; } }
+  .task.flash { animation: flash 1.6s ease; }
+  @keyframes flash { 0%, 60% { box-shadow: 0 0 0 3px var(--alarm); } 100% { box-shadow: 0 0 0 3px #d0121a00; } }
+
+  .journey-end {
+    display: flex; align-items: center; gap: 10px; justify-content: center;
+    margin: 18px 12px 0 12px; color: var(--ink-3); font-family: "Cinzel", serif; font-size: 12.5px; letter-spacing: .12em;
+  }
+  .journey-end::before, .journey-end::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #b9822c99, transparent); }
+  .journey-end svg { width: 22px; height: 22px; color: var(--banner-red); }
+
+  /* ---------- Bottom sheets ---------- */
+  .scrim {
+    position: fixed; inset: 0; z-index: 40;
+    background: #1b0f07a0;
+    opacity: 0; visibility: hidden;
+    transition: opacity .25s, visibility 0s .25s;
+  }
+  .scrim.open { opacity: 1; visibility: visible; transition: opacity .25s; }
+  .sheet {
+    position: fixed; left: 50%; bottom: 0; z-index: 50;
+    width: 100%; max-width: 430px;
+    transform: translate(-50%, 105%); visibility: hidden;
+    transition: transform .3s cubic-bezier(.2, .8, .2, 1), visibility 0s .3s;
+    background: var(--felt) var(--felt-noise);
+    border-radius: 20px 20px 0 0; overflow: hidden;
+    box-shadow: 0 -12px 34px #0007;
+    padding: 24px 16px calc(18px + env(safe-area-inset-bottom));
+  }
+  .sheet.open { transform: translate(-50%, 0); visibility: visible; transition: transform .3s cubic-bezier(.2, .8, .2, 1); }
+  .sheet::before {
+    content: ""; position: absolute; left: 0; right: 0; top: 0; height: 12px;
+    background: var(--khee-red); background-size: 16px 12px; border-bottom: 1px solid #e8b64c;
+  }
+  .sheet-head { display: flex; align-items: center; gap: 12px; margin: 4px 0 6px; }
+  .sheet-head .knot { width: 34px; height: 34px; flex: none; color: var(--sky-1); }
+  .sheet-head h2 { margin: 0; font-family: "Cinzel", serif; font-weight: 700; font-size: 21px; color: var(--leather-2); }
+  .sheet-head p { margin: 2px 0 0; font-size: 15px; color: var(--ink-2); }
+  .sheet-head p b { color: var(--sky-1); }
+  .field { display: block; margin-top: 14px; font-weight: 700; font-size: 14px; color: var(--leather); }
+  .field .opt { font-weight: 400; color: var(--ink-3); }
+  .field input {
+    display: block; width: 100%; height: 50px; margin-top: 6px; padding: 0 12px;
+    border: 2px solid #c9ad7c; border-radius: 10px; background: #fffaf0;
+    font: inherit; font-size: 17px; font-weight: 400; color: var(--ink);
+  }
+  .field input:focus { outline: none; border-color: var(--sky-1); box-shadow: 0 0 0 3px #1a4f9333; }
+  .field input.invalid { border-color: var(--alarm); box-shadow: 0 0 0 3px #d0121a26; }
+  .err { margin: 6px 0 0; color: var(--alarm); font-weight: 700; font-size: 14px; }
+  .shake { animation: shake .35s; }
+  @keyframes shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+  .sheet-actions { display: flex; gap: 10px; margin-top: 20px; }
+  .btn {
+    flex: 1; height: 52px; border-radius: 12px; border: none;
+    font-size: 17px; font-weight: 800; letter-spacing: .02em;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .btn svg { width: 26px; height: 14px; }
+  .btn.ghost { background: transparent; border: 2px solid #b89a68; color: var(--leather); }
+  .btn.gold {
+    background: linear-gradient(160deg, #f8dc88, #d6a03c 50%, #a8741f); color: #3f2615;
+    box-shadow: inset 0 0 0 2px #fff3c4aa, 0 2px 0 #6a4127;
+  }
+  .btn.danger { background: var(--alarm); color: #fff; box-shadow: 0 2px 0 #7d0b10; }
+  .btn:active { transform: translateY(1px); }
+  .del-title {
+    margin: 12px 0 0; padding: 12px 14px; border-radius: 10px;
+    background: var(--felt-card); border: 1px dashed #b9822c88;
+    font-size: 17px; font-weight: 600; overflow-wrap: anywhere;
+  }
+  .del-title small { display: block; margin-top: 2px; font-size: 14px; font-weight: 400; color: var(--ink-2); }
+
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+<!-- Shared SVG symbols -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="rough" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="1.4" numOctaves="2" seed="3" result="t"/>
+      <feDisplacementMap in="SourceGraphic" in2="t" scale="1.6"/>
+    </filter>
+    <!-- Ulzii / endless knot (simplified, drawn as interlaced lattice with corner loops) -->
+    <symbol id="ulzii" viewBox="0 0 24 24">
+      <g transform="rotate(45 12 12)" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 7V17M10.33 7V17M13.67 7V17M17 7V17M7 7H17M7 10.33H17M7 13.67H17M7 17H17"/>
+        <path d="M7 7A1.67 1.67 0 0 1 10.33 7M13.67 7A1.67 1.67 0 0 1 17 7M7 17A1.67 1.67 0 0 0 10.33 17M13.67 17A1.67 1.67 0 0 0 17 17M7 7A1.67 1.67 0 0 0 7 10.33M7 13.67A1.67 1.67 0 0 0 7 17M17 7A1.67 1.67 0 0 1 17 10.33M17 13.67A1.67 1.67 0 0 1 17 17"/>
+      </g>
+    </symbol>
+    <symbol id="plus" viewBox="0 0 24 24"><path d="M12 4.5v15M4.5 12h15" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round"/></symbol>
+    <symbol id="arrow" viewBox="0 0 52 28">
+      <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 14H44"/><path d="M36 6L46 14L36 22"/><path d="M4 14L1 8M4 14L1 20M10 14L7 8M10 14L7 20"/>
+      </g>
+    </symbol>
+    <symbol id="alarm" viewBox="0 0 24 24">
+      <path d="M12 3L22 20H2Z" fill="currentColor"/><path d="M12 9.5v5" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="17.3" r="1.4" fill="#fff"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="app">
+  <header class="banner">
+    <svg class="scene" viewBox="0 0 430 178" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#0c2a55"/>
+          <stop offset=".55" stop-color="#1f5ea9"/>
+          <stop offset="1" stop-color="#8fbbe3"/>
+        </linearGradient>
+        <radialGradient id="sunG" cx="330" cy="26" r="120" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#ffe9a8" stop-opacity=".45"/>
+          <stop offset="1" stop-color="#ffe9a8" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <rect width="430" height="178" fill="url(#skyG)"/>
+      <rect width="430" height="178" fill="url(#sunG)"/>
+      <!-- soaring eagle -->
+      <path d="M232 46q7-6 13-1q6-5 13 1q-6-2-13 2q-7-4-13-2z" fill="#0c2a55" opacity=".7"/>
+      <!-- far, mid, near hills -->
+      <path d="M0 136C60 118 120 124 180 130S300 112 360 124S420 120 430 122V178H0Z" fill="#5d82ad" opacity=".6"/>
+      <path d="M0 152C70 134 140 142 210 146S340 132 430 142V178H0Z" fill="#b48a4a"/>
+      <!-- gers on the steppe -->
+      <g fill="#f4ead6" stroke="#6a4127" stroke-width=".8">
+        <path d="M224 147h26v-6q-13-11-26 0z"/><path d="M232 136l5-3l5 3" fill="none"/>
+        <path d="M258 145h19v-5q-9.5-8-19 0z"/>
+      </g>
+      <g fill="#6a4127"><rect x="234.5" y="141" width="5" height="6"/><rect x="265.5" y="140.5" width="4" height="4.5"/></g>
+      <path d="M0 166C90 156 200 162 280 158S400 154 430 158V178H0Z" fill="#8a6232"/>
+      <!-- nine-tailed standard (tug) -->
+      <g fill="none" stroke="#1b0f07" stroke-linecap="round">
+        <path d="M372 20V164" stroke-width="3"/>
+        <path d="M364 12Q364 24 372 26Q380 24 380 12" stroke-width="2.2"/>
+        <ellipse cx="372" cy="46" rx="20" ry="4" stroke-width="2.2"/>
+        <g stroke-width="3.2">
+          <path d="M354 48C352 62 356 76 348 88"/>
+          <path d="M358.5 48C356.5 64 360.5 78 354 90.5"/>
+          <path d="M363 48C361 64 365 80 360 93"/>
+          <path d="M367.5 48C365.5 66 369.5 82 366 95.5"/>
+          <path d="M372 48C370 66 374 84 372 98"/>
+          <path d="M376.5 48C374.5 66 378.5 82 378 95.5"/>
+          <path d="M381 48C379 64 383 80 384 93"/>
+          <path d="M385.5 48C383.5 64 387.5 78 390 90.5"/>
+          <path d="M390 48C388 62 392 76 396 88"/>
+        </g>
+      </g>
+      <path d="M372 2L367.5 18L372 15.5L376.5 18Z" fill="#1b0f07"/>
+      <circle cx="372" cy="31" r="3" fill="#1b0f07"/>
+    </svg>
+    <div class="brand">
+      <span id="toono" aria-hidden="true"></span>
+      <div>
+        <h1>Gök Defter</h1>
+        <p class="sub">Bozkırın takvimi</p>
+        <p class="todayline" id="todayLine"></p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="nav" id="nav" aria-label="Hafta gezintisi">
+    <div class="nav-row">
+      <button class="iconbtn" id="prevBtn" aria-label="Önceki hafta">
+        <svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <div class="range" aria-live="polite">
+        <span class="w" id="weekNo"></span>
+        <span class="r" id="rangeLabel"></span>
+      </div>
+      <button class="iconbtn" id="nextBtn" aria-label="Sonraki hafta">
+        <svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="todaybtn" id="todayBtn">Bugün</button>
+    </div>
+    <div class="strip" aria-hidden="true"></div>
+  </nav>
+
+  <main id="main">
+    <div class="days" id="days"></div>
+    <div class="journey-end" aria-hidden="true"><svg><use href="#ulzii"/></svg><span>Mavi gök altında</span><svg><use href="#ulzii"/></svg></div>
+  </main>
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<section class="sheet" id="addSheet" role="dialog" aria-modal="true" aria-labelledby="addH">
+  <div class="sheet-head">
+    <svg class="knot" aria-hidden="true"><use href="#ulzii"/></svg>
+    <div>
+      <h2 id="addH">Yeni görev</h2>
+      <p>Gün: <b id="addDay"></b></p>
+    </div>
+  </div>
+  <form id="addForm" novalidate autocomplete="off">
+    <label class="field">Başlık
+      <input id="fTitle" type="text" maxlength="200" enterkeyhint="done" placeholder="Örn. Market alışverişi" autofocus>
+    </label>
+    <p class="err" id="fErr" hidden>Lütfen bir başlık yazın.</p>
+    <label class="field">Saat <span class="opt">(isteğe bağlı)</span>
+      <input id="fTime" type="time">
+    </label>
+    <div class="sheet-actions">
+      <button type="button" class="btn ghost" data-close>İptal</button>
+      <button type="submit" class="btn gold"><svg aria-hidden="true"><use href="#arrow"/></svg>Ekle</button>
+    </div>
+  </form>
+</section>
+
+<section class="sheet" id="delSheet" role="dialog" aria-modal="true" aria-labelledby="delH">
+  <div class="sheet-head">
+    <svg class="knot" aria-hidden="true" style="color:var(--banner-red)"><use href="#ulzii"/></svg>
+    <div><h2 id="delH">Görev</h2><p>Bu görevi silmek ister misiniz?</p></div>
+  </div>
+  <div class="del-title" id="delTitle"></div>
+  <div class="sheet-actions">
+    <button type="button" class="btn ghost" data-close>İptal</button>
+    <button type="button" class="btn danger" id="delBtn">Sil</button>
+  </div>
+</section>
+
+<script>
+(function () {
+  'use strict';
+
+  var KEY = 'todoapp.tasks.v1';
+  var DAY_NAMES = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+  var MONTHS = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Date helpers (local calendar dates) ---------- */
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function ymd(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function parseYmd(s) { var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+  function addDays(d, n) { return new Date(d.getFullYear(), d.getMonth(), d.getDate() + n); }
+  function today() { var n = new Date(); return new Date(n.getFullYear(), n.getMonth(), n.getDate()); }
+  function dayIndex(d) { return (d.getDay() + 6) % 7; }
+  function mondayOf(d) { return addDays(new Date(d.getFullYear(), d.getMonth(), d.getDate()), -dayIndex(d)); }
+  function isoWeek(d) {
+    var t = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 3 - dayIndex(d));
+    var w1 = new Date(t.getFullYear(), 0, 4);
+    return 1 + Math.round(((t - w1) / 864e5 - 3 + dayIndex(w1)) / 7);
+  }
+  function formatRange(mon) {
+    var sun = addDays(mon, 6);
+    if (mon.getFullYear() !== sun.getFullYear()) {
+      return mon.getDate() + ' ' + MONTHS[mon.getMonth()] + ' ' + mon.getFullYear() + ' – ' +
+             sun.getDate() + ' ' + MONTHS[sun.getMonth()] + ' ' + sun.getFullYear();
+    }
+    if (mon.getMonth() !== sun.getMonth()) {
+      return mon.getDate() + ' ' + MONTHS[mon.getMonth()] + ' – ' + sun.getDate() + ' ' + MONTHS[sun.getMonth()] + ' ' + sun.getFullYear();
+    }
+    return mon.getDate() + ' – ' + sun.getDate() + ' ' + MONTHS[sun.getMonth()] + ' ' + sun.getFullYear();
+  }
+  function dayLabel(d) { return DAY_NAMES[dayIndex(d)] + ' · ' + d.getDate() + ' ' + MONTHS[d.getMonth()]; }
+
+  /* ---------- Storage ---------- */
+  function uid() { return Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 9); }
+
+  function makeTask(title, date, time, done, createdAt) {
+    return { id: uid(), title: title, date: date, time: time || null, done: !!done,
+             createdAt: createdAt, categoryId: null, recurrenceId: null };
+  }
+
+  function seedTasks() {
+    var t = today();
+    var ti = dayIndex(t);
+    var base = Date.now() - 3600000;
+    var n = 0;
+    function mk(off, title, time, done) { return makeTask(title, ymd(addDays(t, off)), time, done, base + (n++) * 1000); }
+    var doneA = ti >= 1 ? -ti : -2;          // earlier this week (Monday) when possible
+    var overdueB = ti >= 2 ? -2 : -1;        // past day, this week when possible
+    return [
+      mk(-ti - 3, 'Fatura öde', null, false),                 // overdue, last week
+      mk(doneA, 'Haftalık plan yap', null, true),
+      mk(overdueB, 'Araç muayenesi için ara', '11:00', false), // overdue
+      mk(-1, 'Annemi ara', '19:00', true),
+      mk(0, 'Sabah yürüyüşü', '07:30', true),
+      mk(0, 'Spor', '18:00', false),
+      mk(0, 'Market alışverişi', null, false),
+      mk(0, 'Kitap oku 30 dk', null, false),
+      mk(1, 'Diş hekimi randevusu', '10:30', false),
+      mk(2, 'Kargoyu teslim al', null, false),
+      mk(4, 'Arkadaşlarla akşam yemeği', '20:00', false)
+    ];
+  }
+
+  function validTask(x) {
+    return x && typeof x === 'object' && typeof x.id === 'string' && typeof x.title === 'string' &&
+           typeof x.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(x.date);
+  }
+
+  function loadTasks() {
+    var raw;
+    try { raw = localStorage.getItem(KEY); } catch (e) { return seedTasks(); }
+    if (raw === null) { var s = seedTasks(); saveTasks(s); return s; }
+    try {
+      var arr = JSON.parse(raw);
+      return Array.isArray(arr) ? arr.filter(validTask) : [];
+    } catch (e) { return []; }
+  }
+
+  function saveTasks(list) {
+    try { localStorage.setItem(KEY, JSON.stringify(list || tasks)); } catch (e) { /* in-memory only */ }
+  }
+
+  /* ---------- State ---------- */
+  var tasks = loadTasks();
+  var weekStart = mondayOf(today());
+  var addDate = null;
+  var delId = null;
+  var lastFocus = null;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var daysEl = $('days');
+
+  function sortTasks(list) {
+    return list.slice().sort(function (a, b) {
+      if (a.time && b.time) return a.time < b.time ? -1 : a.time > b.time ? 1 : (a.createdAt || 0) - (b.createdAt || 0);
+      if (a.time) return -1;
+      if (b.time) return 1;
+      return (a.createdAt || 0) - (b.createdAt || 0);
+    });
+  }
+
+  function svgUse(id, cls) {
+    var ns = 'http://www.w3.org/2000/svg';
+    var s = document.createElementNS(ns, 'svg');
+    if (cls) s.setAttribute('class', cls);
+    s.setAttribute('aria-hidden', 'true');
+    var u = document.createElementNS(ns, 'use');
+    u.setAttribute('href', '#' + id);
+    s.appendChild(u);
+    return s;
+  }
+
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    return e;
+  }
+
+  /* ---------- Toono (ger crown) emblem ---------- */
+  function toonoSvg(size, color) {
+    var spokes = '';
+    for (var i = 0; i < 16; i++) {
+      var a = i * Math.PI / 8;
+      spokes += 'M' + (17 * Math.cos(a)).toFixed(2) + ' ' + (17 * Math.sin(a)).toFixed(2) +
+                'L' + (28 * Math.cos(a)).toFixed(2) + ' ' + (28 * Math.sin(a)).toFixed(2);
+    }
+    return '<svg class="toono" viewBox="-30 -30 60 60" width="' + size + '" height="' + size + '">' +
+      '<g fill="none" stroke="' + color + '" stroke-linecap="round">' +
+      '<path d="' + spokes + '" stroke-width="2.4"/>' +
+      '<circle r="16" stroke-width="3"/><circle r="11" stroke-width="1.6"/>' +
+      '<path d="M-4 -10.25Q-7 0 -4 10.25M4 -10.25Q7 0 4 10.25M-10.25 -4Q0 -7 10.25 -4M-10.25 4Q0 7 10.25 4" stroke-width="1.8"/>' +
+      '</g></svg>';
+  }
+  $('toono').innerHTML = toonoSvg(58, '#f0c867');
+  var miniStation = '<svg viewBox="-12 -12 24 24" aria-hidden="true"><g fill="none" stroke="#f0c867" stroke-width="2.2" stroke-linecap="round">' +
+    '<circle r="5"/><path d="M0 -10V-5M0 5V10M-10 0H-5M5 0H10M-7 -7L-3.5 -3.5M3.5 3.5L7 7M7 -7L3.5 -3.5M-3.5 3.5L-7 7"/></g></svg>';
+
+  // Done marker: dashed felt ring + tamga-style seal stamp (inlined so CSS state selectors reach it)
+  var MARK_SVG = '<svg viewBox="0 0 40 40" aria-hidden="true">' +
+    '<circle class="ring" cx="20" cy="20" r="13"/>' +
+    '<g class="seal" filter="url(#rough)">' +
+    '<rect x="5" y="5" width="30" height="30" rx="5" fill="#1a4f93"/>' +
+    '<rect x="8" y="8" width="24" height="24" rx="3" fill="none" stroke="#f6efe0" stroke-width="1.3"/>' +
+    '<path d="M20 12.5V27.5M14 14.5Q14 21 20 21Q26 21 26 14.5M15.5 27.5H24.5" fill="none" stroke="#f6efe0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>' +
+    '</g></svg>';
+
+  /* ---------- Render ---------- */
+  function render(anim) {
+    var t = today();
+    var todayY = ymd(t);
+    var curMon = mondayOf(t);
+    var isCurrent = ymd(weekStart) === ymd(curMon);
+    var overdueAll = tasks.filter(function (x) { return !x.done && x.date < todayY; });
+
+    $('todayLine').textContent = 'Bugün: ' + DAY_NAMES[dayIndex(t)] + ', ' + t.getDate() + ' ' + MONTHS[t.getMonth()];
+    $('rangeLabel').textContent = formatRange(weekStart);
+    $('weekNo').textContent = isoWeek(weekStart) + '. hafta' + (isCurrent ? ' · bu hafta' : '');
+
+    var byDate = {};
+    tasks.forEach(function (x) { (byDate[x.date] = byDate[x.date] || []).push(x); });
+
+    var frag = document.createDocumentFragment();
+    for (var i = 0; i < 7; i++) {
+      var d = addDays(weekStart, i);
+      var ds = ymd(d);
+      var state = ds < todayY ? 'past' : ds === todayY ? 'today' : 'future';
+      var sec = el('section', 'day ' + state);
+      sec.setAttribute('data-date', ds);
+      sec.setAttribute('aria-label', dayLabel(d));
+
+      var station = el('span', 'station');
+      station.setAttribute('aria-hidden', 'true');
+      if (state === 'today') station.innerHTML = miniStation;
+      sec.appendChild(station);
+
+      var card = el('div', 'card');
+      var head = el('div', 'day-head');
+      var titleWrap = el('h2', 'day-title');
+      titleWrap.style.margin = '0';
+      titleWrap.appendChild(el('span', 'dname', DAY_NAMES[i]));
+      titleWrap.appendChild(el('span', 'ddate', '· ' + d.getDate() + ' ' + MONTHS[d.getMonth()]));
+      head.appendChild(titleWrap);
+      if (state === 'today') {
+        var b = el('span', 'badge-today');
+        b.appendChild(svgUse('ulzii'));
+        b.appendChild(document.createTextNode('Bugün'));
+        head.appendChild(b);
+      }
+      var add = el('button', 'paiza');
+      add.type = 'button';
+      add.setAttribute('data-add', ds);
+      add.setAttribute('aria-label', DAY_NAMES[i] + ' gününe görev ekle');
+      add.appendChild(svgUse('plus'));
+      head.appendChild(add);
+      card.appendChild(head);
+
+      if (state === 'today' && isCurrent && overdueAll.length) {
+        var chip = el('button', 'overdue-chip');
+        chip.type = 'button';
+        chip.setAttribute('data-overdue', '1');
+        chip.appendChild(svgUse('alarm'));
+        chip.appendChild(document.createTextNode(overdueAll.length + ' geciken görev'));
+        chip.appendChild(el('span', 'go', 'Göster ›'));
+        card.appendChild(chip);
+      }
+
+      var list = sortTasks(byDate[ds] || []);
+      if (!list.length) {
+        var empty = el('p', 'empty');
+        empty.appendChild(svgUse('ulzii'));
+        empty.appendChild(document.createTextNode('Görev yok — sakin bir gün'));
+        card.appendChild(empty);
+      } else {
+        var ul = el('ul', 'tasks');
+        list.forEach(function (task) {
+          var overdue = !task.done && task.date < todayY;
+          var li = el('li', 'task' + (task.done ? ' done' : '') + (overdue ? ' overdue' : ''));
+          li.setAttribute('data-id', task.id);
+
+          var mark = el('button', 'mark');
+          mark.type = 'button';
+          mark.setAttribute('data-toggle', task.id);
+          mark.setAttribute('aria-pressed', task.done ? 'true' : 'false');
+          mark.setAttribute('aria-label', (task.done ? 'Tamamlanmadı yap: ' : 'Tamamlandı yap: ') + task.title);
+          mark.innerHTML = MARK_SVG;
+          li.appendChild(mark);
+
+          var body = el('button', 'tbody');
+          body.type = 'button';
+          body.setAttribute('data-open', task.id);
+          if (task.time) body.appendChild(el('span', 'time', task.time));
+          body.appendChild(el('span', 'title', task.title));
+          if (overdue) body.appendChild(el('span', 'late', 'Gecikti'));
+          li.appendChild(body);
+          ul.appendChild(li);
+        });
+        card.appendChild(ul);
+      }
+      sec.appendChild(card);
+      frag.appendChild(sec);
+    }
+    daysEl.textContent = '';
+    daysEl.appendChild(frag);
+
+    daysEl.classList.remove('in-next', 'in-prev', 'in-fade');
+    if (anim && !reduceMotion) {
+      void daysEl.offsetWidth;
+      daysEl.classList.add('in-' + anim);
+    }
+  }
+
+  function navHeight() { return $('nav').getBoundingClientRect().height; }
+
+  function scrollToToday(smooth) {
+    var sec = daysEl.querySelector('.day.today');
+    if (!sec) return;
+    var r = sec.getBoundingClientRect();
+    var nh = navHeight();
+    if (r.top >= nh && r.top < window.innerHeight * 0.55) return; // already nicely in view
+    window.scrollTo({ top: window.scrollY + r.top - nh - 10, behavior: smooth && !reduceMotion ? 'smooth' : 'auto' });
+  }
+
+  function scrollListTop() {
+    var top = $('main').getBoundingClientRect().top + window.scrollY - navHeight();
+    if (window.scrollY > top) window.scrollTo({ top: top, behavior: 'auto' });
+  }
+
+  function goWeek(delta) {
+    weekStart = addDays(weekStart, delta * 7);
+    render(delta > 0 ? 'next' : 'prev');
+    scrollListTop();
+  }
+
+  function goToday() {
+    var cur = mondayOf(today());
+    var changed = ymd(cur) !== ymd(weekStart);
+    weekStart = cur;
+    if (changed) render('fade');
+    scrollToToday(true);
+  }
+
+  function flashTask(id, cls) {
+    var li = daysEl.querySelector('.task[data-id="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]');
+    if (!li) return null;
+    li.classList.add(cls);
+    li.addEventListener('animationend', function () { li.classList.remove(cls); }, { once: true });
+    return li;
+  }
+
+  /* ---------- Actions ---------- */
+  function findTask(id) { for (var i = 0; i < tasks.length; i++) if (tasks[i].id === id) return tasks[i]; return null; }
+
+  function toggle(id) {
+    var t = findTask(id);
+    if (!t) return;
+    t.done = !t.done;
+    saveTasks();
+    render();
+    if (t.done) flashTask(id, 'stamped');
+    var btn = daysEl.querySelector('[data-toggle="' + (window.CSS && CSS.escape ? CSS.escape(id) : id) + '"]');
+    if (btn) btn.focus({ preventScroll: true });
+  }
+
+  /* ---------- Sheets ---------- */
+  var openSheetEl = null;
+  function openSheet(sheet) {
+    lastFocus = document.activeElement;
+    openSheetEl = sheet;
+    $('scrim').classList.add('open');
+    sheet.classList.add('open');
+  }
+  function closeSheet() {
+    if (!openSheetEl) return;
+    openSheetEl.classList.remove('open');
+    $('scrim').classList.remove('open');
+    openSheetEl = null;
+    if (lastFocus && lastFocus.focus && document.body.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
+  }
+
+  function openAdd(ds) {
+    addDate = ds;
+    $('addDay').textContent = dayLabel(parseYmd(ds));
+    $('fTitle').value = '';
+    $('fTime').value = '';
+    $('fErr').hidden = true;
+    $('fTitle').classList.remove('invalid');
+    openSheet($('addSheet'));
+    $('fTitle').focus({ preventScroll: true });
+    setTimeout(function () { if (openSheetEl === $('addSheet')) $('fTitle').focus({ preventScroll: true }); }, 60);
+  }
+
+  function openDelete(id) {
+    var t = findTask(id);
+    if (!t) return;
+    delId = id;
+    var box = $('delTitle');
+    box.textContent = t.title;
+    box.appendChild(el('small', null, dayLabel(parseYmd(t.date)) + (t.time ? ' · ' + t.time : '')));
+    openSheet($('delSheet'));
+    setTimeout(function () { if (openSheetEl === $('delSheet')) $('delBtn').focus({ preventScroll: true }); }, 60);
+  }
+
+  $('addForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var input = $('fTitle');
+    var title = input.value.trim();
+    if (!title) {
+      $('fErr').hidden = false;
+      input.classList.add('invalid');
+      input.classList.remove('shake'); void input.offsetWidth; input.classList.add('shake');
+      input.focus();
+      return;
+    }
+    var time = $('fTime').value;
+    if (!/^\d{2}:\d{2}$/.test(time)) time = null;
+    var task = makeTask(title, addDate, time, false, Date.now());
+    tasks.push(task);
+    saveTasks();
+    closeSheet();
+    render();
+    var li = flashTask(task.id, 'fresh');
+    if (li) {
+      var r = li.getBoundingClientRect();
+      if (r.top < navHeight() || r.bottom > window.innerHeight) li.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
+  });
+  $('fTitle').addEventListener('input', function () {
+    if (this.value.trim()) { $('fErr').hidden = true; this.classList.remove('invalid'); }
+  });
+
+  $('delBtn').addEventListener('click', function () {
+    if (delId) {
+      tasks = tasks.filter(function (t) { return t.id !== delId; });
+      saveTasks();
+      delId = null;
+    }
+    lastFocus = null;
+    closeSheet();
+    render();
+  });
+
+  $('scrim').addEventListener('click', closeSheet);
+  document.querySelectorAll('[data-close]').forEach(function (b) { b.addEventListener('click', closeSheet); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && openSheetEl) { e.preventDefault(); closeSheet(); }
+    if (e.key === 'Tab' && openSheetEl) {
+      var f = openSheetEl.querySelectorAll('button, input');
+      if (!f.length) return;
+      var first = f[0], last = f[f.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+
+  /* ---------- Nav ---------- */
+  $('prevBtn').addEventListener('click', function () { goWeek(-1); });
+  $('nextBtn').addEventListener('click', function () { goWeek(1); });
+  $('todayBtn').addEventListener('click', goToday);
+
+  /* ---------- Delegated clicks on the list ---------- */
+  daysEl.addEventListener('click', function (e) {
+    var tgt = e.target.closest('button');
+    if (!tgt || !daysEl.contains(tgt)) return;
+    if (tgt.hasAttribute('data-toggle')) toggle(tgt.getAttribute('data-toggle'));
+    else if (tgt.hasAttribute('data-open')) openDelete(tgt.getAttribute('data-open'));
+    else if (tgt.hasAttribute('data-add')) openAdd(tgt.getAttribute('data-add'));
+    else if (tgt.hasAttribute('data-overdue')) {
+      var todayY = ymd(today());
+      var od = tasks.filter(function (x) { return !x.done && x.date < todayY; })
+                    .sort(function (a, b) { return a.date < b.date ? -1 : a.date > b.date ? 1 : 0; });
+      if (!od.length) return;
+      weekStart = mondayOf(parseYmd(od[0].date));
+      render('prev');
+      var li = flashTask(od[0].id, 'flash');
+      if (li) li.scrollIntoView({ block: 'center', behavior: reduceMotion ? 'auto' : 'smooth' });
+    }
+  });
+
+  /* ---------- Horizontal swipe → previous / next week ---------- */
+  var main = $('main');
+  var sw = null;
+  var suppressClick = false;
+
+  main.addEventListener('pointerdown', function (e) {
+    suppressClick = false;
+    if (!e.isPrimary || (e.pointerType === 'mouse' && e.button !== 0)) return;
+    sw = { x: e.clientX, y: e.clientY, id: e.pointerId, mode: null, dx: 0 };
+  });
+  main.addEventListener('pointermove', function (e) {
+    if (!sw || e.pointerId !== sw.id) return;
+    var dx = e.clientX - sw.x, dy = e.clientY - sw.y;
+    if (!sw.mode) {
+      if (Math.abs(dx) > 12 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+        sw.mode = 'h';
+        daysEl.classList.remove('settle', 'in-next', 'in-prev', 'in-fade');
+        daysEl.classList.add('drag');
+      } else if (Math.abs(dy) > 12) { sw = null; return; }
+    }
+    if (sw.mode === 'h') {
+      sw.dx = dx;
+      if (!reduceMotion) daysEl.style.transform = 'translateX(' + (dx * 0.45) + 'px)';
+      if (e.cancelable) e.preventDefault();
+    }
+  });
+  function endSwipe(e, cancelled) {
+    if (!sw || (e && e.pointerId !== sw.id)) return;
+    var s = sw; sw = null;
+    if (s.mode !== 'h') return;
+    suppressClick = true;
+    daysEl.classList.remove('drag');
+    daysEl.style.transform = '';
+    if (!cancelled && Math.abs(s.dx) > 60) {
+      goWeek(s.dx < 0 ? 1 : -1);
+    } else if (!reduceMotion) {
+      daysEl.classList.add('settle');
+      setTimeout(function () { daysEl.classList.remove('settle'); }, 260);
+    }
+  }
+  main.addEventListener('pointerup', function (e) { endSwipe(e, false); });
+  main.addEventListener('pointercancel', function (e) { endSwipe(e, true); });
+  main.addEventListener('click', function (e) {
+    if (suppressClick) { e.stopPropagation(); e.preventDefault(); suppressClick = false; }
+  }, true);
+
+  /* ---------- Init ---------- */
+  render();
+  function initialScroll() { scrollToToday(false); }
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(initialScroll, initialScroll);
+  } else {
+    window.addEventListener('load', initialScroll);
+  }
+})();
+</script>
+</body>
+</html>
