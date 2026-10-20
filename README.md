@@ -1,6 +1,6 @@
 # Görev Defteri
 
-Europa Universalis IV havasında, kişisel bir Android yapılacaklar uygulaması.
+Orta çağ temalı kişisel bir Android yapılacaklar uygulaması.
 
 - Ana ekran içinde bulunulan haftayı gösterir: pazartesiden pazara 7 gün alt alta, her günün altında o günün görevleri. Yana kaydırınca önceki ve sonraki haftalara geçilir.
 - Görev bitince tiklenir ve üstü çizilir. Yapılmayan geçmiş görevler kırmızıyla "Gecikti" olarak işaretlenir. Basılı tutulan görev "Başarısız" olur; bunlar yalnızca o gün yapılabilen görevler içindir.
